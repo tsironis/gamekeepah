@@ -3,10 +3,8 @@ var redis = require('redis');
 var _ = require('underscore');
 var app = express();
 // inside if statement
-var rtg   = require("url").parse(process.env.REDISTOGO_URL);
-var redis = require("redis").createClient(rtg.port, rtg.hostname);
+var rtg   = require("redis-url").connect(process.env.REDISTOGO_URL);
 
-redis.auth(rtg.auth.split(":")[1]);
 var logfmt = require("logfmt");
 
 app.use(express.bodyParser());
