@@ -3,8 +3,14 @@ var redis = require('redis');
 var _ = require('underscore');
 var app = express();
 var redisClient = redis.createClient();
-app.use(express.bodyParser());
+var logfmt = require("logfmt");
 
+app.use(express.bodyParser());
+app.use(logfmt.requestLogger());
+
+app.get('/', function(req, res) {
+  res.send('Hello World!');
+});
 
 app.post('/api/:errorHash', function(req, res){
   res.send('ok')
