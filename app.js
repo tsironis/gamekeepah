@@ -4,6 +4,7 @@ var _ = require('underscore');
 var app = express();
 // inside if statement
 var rtg   = require("redis-url").connect(process.env.REDISTOGO_URL);
+var port = process.env.PORT || 5000;
 
 var logfmt = require("logfmt");
 
@@ -29,5 +30,5 @@ app.get('/api/:errorHash', function(req, res){
   });
 });
 
-app.listen(3000);
-console.log('Listening on port '+3000);
+app.listen(port);
+console.log('Listening on port '+port);
