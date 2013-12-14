@@ -1,9 +1,8 @@
 var express = require('express');
-var redis = require('redis');
 var _ = require('underscore');
 var app = express();
 // inside if statement
-var rtg   = require("redis-url").connect(process.env.REDISTOGO_URL);
+var redis   = require("redis-url").connect(process.env.REDISTOGO_URL);
 var port = process.env.PORT || 5000;
 
 var logfmt = require("logfmt");
