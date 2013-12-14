@@ -2,7 +2,11 @@ var express = require('express');
 var redis = require('redis');
 var _ = require('underscore');
 var app = express();
-var redisClient = redis.createClient();
+// inside if statement
+var rtg   = require("url").parse(process.env.REDISTOGO_URL);
+var redis = require("redis").createClient(rtg.port, rtg.hostname);
+
+redis.auth(rtg.auth.split(":")[1]);
 var logfmt = require("logfmt");
 
 app.use(express.bodyParser());
@@ -16,12 +20,12 @@ app.post('/api/:errorHash', function(req, res){
   res.send('ok')
   _.each(req.body, function (value, key) {
     console.log(key+': '+value);
-    redisClient.hset(req.params.errorHash, key, value, redis.print);
+    redis.hset(req.params.errorHash, key, value, redis.print);
   });
 });
 
 app.get('/api/:errorHash', function(req, res){
-  redisClient.hgetall(req.params.errorHash, function (err, replies) {
+  redis.hgetall(req.params.errorHash, function (err, replies) {
     console.log(replies);
     res.end(JSON.stringify(replies));
   });
